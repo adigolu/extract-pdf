@@ -40,7 +40,7 @@ def extract_pdf():
         return jsonify({
             "success": True,
             "text": full_text.strip(),
-            "pages": len(doc)
+            "pages": np
         })
 
 
