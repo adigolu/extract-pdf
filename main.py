@@ -11,6 +11,7 @@ def extract_pdf():
         return jsonify({"success": False, "error": "Lipseste fisierul PDF (pdf_base64)"}), 400
         
     try:
+        print("extract-pdf start",flush=1)
         pdf_base64_string = data['pdf_base64']
         # Decodificăm fișierul din formatul Base64 primit de la Make
         if pdf_base64_string.count("%PDF",0,4) == 1:
@@ -24,7 +25,7 @@ def extract_pdf():
         full_text = ""
         for page in doc:
             full_text += page.get_text()
-            print("nr page {np} {len(full_text)}",flush=1)
+            print(f"nr page {np} {len(full_text)}",flush=1)
             np=np+1
         doc.close()
         
