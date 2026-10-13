@@ -20,9 +20,12 @@ def extract_pdf():
         
         # Deschidem PDF-ul direct din memoria RAM (fără a scrie pe disc)
         doc = pymupdf.open(stream=pdf_bytes, filetype="pdf")
+        np = 1
         full_text = ""
         for page in doc:
             full_text += page.get_text()
+            print("nr page {np} {len(full_text)}",flush=1)
+            np=np+1
         doc.close()
         
         return jsonify({
