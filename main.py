@@ -6,18 +6,12 @@ app = Flask(__name__)
 
 @app.route('/extract-pdf', methods=['POST'])
 def extract_pdf():
-    data = request.get_json()
-    if not data or 'pdf_base64' not in data:
-        return jsonify({"success": False, "error": "Lipseste fisierul PDF (pdf_base64)"}), 400
         
     try:
         print("extract-pdf start",flush=1)
-        pdf_base64_string = data
-        # Decodificăm fișierul din formatul Base64 primit de la Make
-        if pdf_base64_string.count("%PDF",0,4) == 1:
-            pdf_bytes = pdf_base64_string
-        else:
-            pdf_bytes = base64.b64decode(pdf_base64_string)
+        pdf_bytes = request.data
+        if not pdf_bytes or len(pdf_bytes) < 10:
+            return jsonify({"success": False, "error": "Nu s-au primit date sau fisierul este gol"}), 400
         
         # Deschidem PDF-ul direct din memoria RAM (fără a scrie pe disc)
         doc = pymupdf.open(stream=pdf_bytes, filetype="pdf")
