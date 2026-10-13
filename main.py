@@ -31,7 +31,7 @@ def extract_pdf():
             "pages": len(doc)
         })
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)+",bytes:"+str(pdf_bytes[:6])}), 500
+        return jsonify({"success": False, "error": str(e)+",bytes:"+str(len(pdf_bytes))}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
