@@ -13,7 +13,7 @@ def extract_pdf():
     try:
         pdf_base64_string = data['pdf_base64']
         # Decodificăm fișierul din formatul Base64 primit de la Make
-        if pdf_base64_string.count(b"%PDF",0,4) == 1:
+        if pdf_base64_string.count("%PDF",0,4) == 1:
             pdf_bytes = pdf_base64_string
         else:
             pdf_bytes = base64.b64decode(pdf_base64_string)
