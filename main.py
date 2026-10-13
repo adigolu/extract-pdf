@@ -1,5 +1,5 @@
 import base64
-import fitz  # PyMuPDF
+import pymupdf
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -13,10 +13,13 @@ def extract_pdf():
     try:
         pdf_base64_string = data['pdf_base64']
         # Decodificăm fișierul din formatul Base64 primit de la Make
-        pdf_bytes = base64.b64decode(pdf_base64_string)
+        if pdf_base64_string.count(b"%PDF",0,4) == 1:
+            pdf_bytes = pdf_base64_string
+        else:
+            pdf_bytes = base64.b64decode(pdf_base64_string)
         
         # Deschidem PDF-ul direct din memoria RAM (fără a scrie pe disc)
-        doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+        doc = pymupdf.open(stream=pdf_bytes, filetype="pdf")
         full_text = ""
         for page in doc:
             full_text += page.get_text()
